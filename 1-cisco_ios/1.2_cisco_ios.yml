@@ -59,3 +59,33 @@
       - name: dump the 2nd line of "show inventory" using dot notation
         debug: var=show_info.stdout_lines.2.1
       # -------------------------------------------------------------
+
+
+#      - name: set version fact
+#        set_fact: version="{{ show_ver.stdout[0] | regex_search('Version (\\S+),', '\\1') | first }}"
+
+#      - name: set models fact
+#        set_fact: models="{{ show_ver.stdout[0] | regex_findall('Model number\s*\:\s*WS\\S+') }}"
+
+#      - name: output
+#        set_fact: models="{{ show_ver.stdout[0] | regex_findall('Model [Nn]umber\s*\:\s*(WS\S+)') }}"
+
+  #    - name: set models fact
+  #      set_fact: models="{{ show_ver.stdout[0] | regex_findall('Model [Nn]umber\s*\:\s*(WS\S+)') }}"
+
+#      - name: set serial numbers fact
+#        set_fact: serials="{{ show_ver.stdout[0] | regex_findall('System Serial Number\s*\:\s*(\S+)') }}"
+
+#      - name: output
+#        set_fact: models="{{ show_ver.stdout[0] | regex_findall('Model [Nn]umber\s*\:\s*(WS\S+)|System Serial Number\s*\:\s*(\S+)') }}"
+
+#      - name: output
+#        set_fact: models="{{ show_ver.stdout[0] | regex_findall('Model [Nn]umber\s*\:\s*(WS\S+)\s*[Ss]ystem [Ss]erial [Nn]umber\s*\:\s*(\S+)') }}"
+
+#      - name: show some stuff
+#        debug: msg="Version = {{ version }}"
+#        debug: var=models
+  #      debug: var=serials
+        #debug: var=show_ver
+        #debug: var=show_ver["stdout_lines"]
+        #debug: var=show_ver["s:tdout_lines"][0][51]
