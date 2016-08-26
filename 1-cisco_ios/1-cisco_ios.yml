@@ -5,10 +5,11 @@
 # Note: Try to stay consistent with indenting, here two-space indenting is used.
 
     # -------------------------------------------------------------
-    # List the Cisco devices this playbook will run against.
-    # See http://docs.ansible.com/ansible/playbooks_intro.html under "Basics".
+    # List the Cisco devices this playbook will run against.  First, just
+    # try a single IP address.  Later you can try more hosts or groups.
   - hosts: 192.168.1.9       # put ip address or name here
-    # Any host of group you list here must be defined/listed in your ansible 'hosts'
+    # See http://docs.ansible.com/ansible/playbooks_intro.html under "Basics".
+    # Any host or group you list here must be defined/listed in your ansible 'hosts'
     # file.  See http://docs.ansible.com/ansible/intro_inventory.html for location
     # and formatting of the ansible 'hosts' file.
     # Note:  This is a list, so the '-' before 'hosts:' is requied, else an
@@ -43,15 +44,7 @@
     #        explained further below.
     # -------------------------------------------------------------
 
-    # -------------------------------------------------------------
-    # This is the local user you are logged-in as on your Ansible
-    # server (the control machine).  e.g. I used 'ansible' as the login on
-    # my Ansible VM Server, you may be using 'root'.
-    # ansible_user: ansible
-    # -------------------------------------------------------------
-
     # Define some necessary variables for the playbooks
-
     vars:
     # -------------------------------------------------------------
     # This is a 'provider' that will be referenced by each task, e.g 'ios_command'
@@ -68,12 +61,12 @@
     # password, etc. within each task.
     # -------------------------------------------------------------
 
-
     # -------------------------------------------------------------
     # Each task is a list item (denoted by the '-').  A 'name' is optional but
     # recommended as the text you place will be displayed as each task is run.
     tasks:
     # Each task is based on a module, e.g. 'ios_command' or 'debug'.
+    # -------------------------------------------------------------
 
       # -------------------------------------------------------------
       # A basic 'ios_command' task similar to the examples shown in:
@@ -84,6 +77,8 @@
           # coding an IP address for the host.
           # http://docs.ansible.com/ansible/playbooks_variables.html#magic-variables-and-how-to-access-information-about-other-hosts
           host: "{{ inventory_hostname }}"
+          # List of commands to run.  For now we'll just do a single command, but
+          # later we'll do an example with more than one.
           commands:
             - show clock
           # Here's the 'provider' mentioned earlier.
@@ -96,16 +91,17 @@
         register: show_clock
       # -------------------------------------------------------------
 
-
       # -------------------------------------------------------------
       # Let's do some more tasks using the 'debug' module
       # http://docs.ansible.com/ansible/debug_module.html
-
+      #
+      # Comment-out each task as you like to limit screen clutter.
+      #
       # A simple example of dumping info to the screen as the playbook runs
       - name: print the current host
         debug: var=inventory_hostname
 
-      # Same as above, just using the 'msg' form of the 'debug'
+      # Same as above, just using the 'msg' form of the 'debug' module
       - name: Again, print the current host
         debug: msg="The current host is {{ inventory_hostname }}"
 
@@ -118,60 +114,13 @@
 
       # Accessing specific data...
       # http://docs.ansible.com/ansible/playbooks_variables.html#accessing-complex-variable-data
-      - name: get just a subset of the data using bracket notation
+      - name: dump a subset of the data using bracket notation
         debug: var=show_clock["stdout"][0]
 
-      - name: get just a subset of the data using dot notation
+      - name: dump a subset of the data using dot notation
         debug: var=show_clock.stdout.0
 
       - name: And just to be redundant
         debug: msg="The date and time of {{ inventory_hostname }} is {{ show_clock.stdout.0 }}"
 
       # -------------------------------------------------------------
-
-      - name: run 'show version'
-        ios_command:
-          host: "{{ inventory_hostname }}"
-          commands:
-            - show version
-            - show interface
-            - show inventory
-          provider: "{{ connect_settings }}"
-        register: show_ver_int
-
-      - name: dump the first line of "show version"
-        debug: var=show_ver_int["stdout_lines"][0][0]
-
-      - name: dump the first line of "show interface"
-        debug: var=show_ver_int.stdout_lines.1.0
-
-      - name: dump the first line of "show inventory"
-        debug: var=show_ver_int.stdout_lines.2.0
-#      - name: set version fact
-#        set_fact: version="{{ show_ver.stdout[0] | regex_search('Version (\\S+),', '\\1') | first }}"
-
-#      - name: set models fact
-#        set_fact: models="{{ show_ver.stdout[0] | regex_findall('Model number\s*\:\s*WS\\S+') }}"
-
-#      - name: output
-#        set_fact: models="{{ show_ver.stdout[0] | regex_findall('Model [Nn]umber\s*\:\s*(WS\S+)') }}"
-
-  #    - name: set models fact
-  #      set_fact: models="{{ show_ver.stdout[0] | regex_findall('Model [Nn]umber\s*\:\s*(WS\S+)') }}"
-
-#      - name: set serial numbers fact
-#        set_fact: serials="{{ show_ver.stdout[0] | regex_findall('System Serial Number\s*\:\s*(\S+)') }}"
-
-#      - name: output
-#        set_fact: models="{{ show_ver.stdout[0] | regex_findall('Model [Nn]umber\s*\:\s*(WS\S+)|System Serial Number\s*\:\s*(\S+)') }}"
-
-#      - name: output
-#        set_fact: models="{{ show_ver.stdout[0] | regex_findall('Model [Nn]umber\s*\:\s*(WS\S+)\s*[Ss]ystem [Ss]erial [Nn]umber\s*\:\s*(\S+)') }}"
-
-#      - name: show some stuff
-#        debug: msg="Version = {{ version }}"
-#        debug: var=models
-  #      debug: var=serials
-        #debug: var=show_ver
-        #debug: var=show_ver["stdout_lines"]
-        #debug: var=show_ver["s:tdout_lines"][0][51]

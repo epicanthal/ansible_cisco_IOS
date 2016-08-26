@@ -1,0 +1,91 @@
+---
+# This playbook is based on Ansible 2.1, which is the initial version to
+# include modules for networking device, of which IOS is suppoted as a set of modules.
+# https://docs.ansible.com/ansible/list_of_network_modules.html
+# Note: Try to stay consistent with indenting, here two-space indenting is used.
+
+
+    # -------------------------------------------------------------
+    # Using a group for the playbook.  In /etc/ansible/hosts file, I have a
+    # group defined:
+    #
+    #   [my_switches]
+    #   192.168.1.9
+    #
+    # To keep things simple, only a single host is listed in the group, but
+    # you can add as many as you like.
+  - hosts: my_switches
+    # See http://docs.ansible.com/ansible/intro_inventory.html for
+    # formatting of the ansible 'hosts' file.
+    # -------------------------------------------------------------
+    gather_facts: no
+    connection: local
+
+    vars:
+      connect_settings:
+        username: cisco
+        password: cisco
+        authorize: yes
+        auth_pass: cisco
+        transport: cli
+
+    tasks:
+      # -------------------------------------------------------------
+      # Run multiple commands with 'ios_command' in a single task, then show
+      # how to access some specific data.
+      - name: run 'show version/interface/inventory'
+        ios_command:
+          host: "{{ inventory_hostname }}"
+          commands:
+            - show version
+            - show interface
+            - show inventory
+          provider: "{{ connect_settings }}"
+        register: show_info
+
+      # Uncomment to see entire contects of 'show_info' registered variable...
+      # Not pretty, but shows how all the output from the three show version/
+      # interface/inventory commands are combined into a single nested data
+      # structure.
+      #- name: dump 'show_info'
+      #  debug: var=show_info
+
+      - name: dump the 1st line of "show version" using bracket notation
+        debug: var=show_info["stdout_lines"][0][0]
+
+      - name: dump the 1st line of "show interface" using dot notation
+        debug: var=show_info.stdout_lines.1.0
+
+      - name: dump the 2nd line of "show inventory" using dot notation
+        debug: var=show_info.stdout_lines.2.1
+      # -------------------------------------------------------------
+
+
+#      - name: set version fact
+#        set_fact: version="{{ show_ver.stdout[0] | regex_search('Version (\\S+),', '\\1') | first }}"
+
+#      - name: set models fact
+#        set_fact: models="{{ show_ver.stdout[0] | regex_findall('Model number\s*\:\s*WS\\S+') }}"
+
+#      - name: output
+#        set_fact: models="{{ show_ver.stdout[0] | regex_findall('Model [Nn]umber\s*\:\s*(WS\S+)') }}"
+
+  #    - name: set models fact
+  #      set_fact: models="{{ show_ver.stdout[0] | regex_findall('Model [Nn]umber\s*\:\s*(WS\S+)') }}"
+
+#      - name: set serial numbers fact
+#        set_fact: serials="{{ show_ver.stdout[0] | regex_findall('System Serial Number\s*\:\s*(\S+)') }}"
+
+#      - name: output
+#        set_fact: models="{{ show_ver.stdout[0] | regex_findall('Model [Nn]umber\s*\:\s*(WS\S+)|System Serial Number\s*\:\s*(\S+)') }}"
+
+#      - name: output
+#        set_fact: models="{{ show_ver.stdout[0] | regex_findall('Model [Nn]umber\s*\:\s*(WS\S+)\s*[Ss]ystem [Ss]erial [Nn]umber\s*\:\s*(\S+)') }}"
+
+#      - name: show some stuff
+#        debug: msg="Version = {{ version }}"
+#        debug: var=models
+  #      debug: var=serials
+        #debug: var=show_ver
+        #debug: var=show_ver["stdout_lines"]
+        #debug: var=show_ver["s:tdout_lines"][0][51]
