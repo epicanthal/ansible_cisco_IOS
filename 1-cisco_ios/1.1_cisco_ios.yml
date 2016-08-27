@@ -4,6 +4,10 @@
 # https://docs.ansible.com/ansible/list_of_network_modules.html
 # Note: Try to stay consistent with indenting, here two-space indenting is used.
 
+# In this playbook we'll introduce:
+#   - using an invetory group
+#   - issuing more than a single 'ios_command' command and then access the
+#     returned data.
 
     # -------------------------------------------------------------
     # Using a group for the playbook.  In /etc/ansible/hosts file, I have a
