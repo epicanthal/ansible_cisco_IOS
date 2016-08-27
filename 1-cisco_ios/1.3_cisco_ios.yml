@@ -12,6 +12,9 @@
 #     you will notice a 'change' for each host on the 1st run as a file is
 #     created.  Subsequent runs will show no changes if the file is the same
 #     for a given host.
+#
+#  (Credit to 'privateip' https://github.com/privateip/Ansible-Webinar-Mar2016
+#   for examples.)
 
 # If you are unfamiliar with regex, you should really take some time to review:
 #   http://www.tutorialspoint.com/python/python_reg_expressions.htm
