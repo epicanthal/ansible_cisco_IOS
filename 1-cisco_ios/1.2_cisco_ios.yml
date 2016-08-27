@@ -5,7 +5,8 @@
 # Note: Try to stay consistent with indenting, here two-space indenting is used.
 
 # In this playbook, we'll introduce:
-#   - using regular expressions (regex) to glean some specific
+#   - using regular expressions (regex) in combination with the
+#     'set_fact' module to glean some specific data
 
 # If you are unfamiliar with regex, you should really take some time to review:
 # http://www.tutorialspoint.com/python/python_reg_expressions.htm, or
@@ -26,9 +27,7 @@
 
     tasks:
       # -------------------------------------------------------------
-      # Run multiple commands with 'ios_command' in a single task, then show
-      # how to access some specific data.
-      - name: run 'show version/interface/inventory'
+      - name: run 'show version'
         ios_command:
           host: "{{ inventory_hostname }}"
           commands:
@@ -37,9 +36,9 @@
         register: show_ver
       # -------------------------------------------------------------
 
-      # Uncomment to see entire contects of 'show_info' registered variable...
-      #- name: dump 'show_info'
-      #  debug: var=show_info
+      # Uncomment to see entire contects of 'show_ver' registered variable...
+      #- name: dump 'show_ver'
+      #  debug: var=show_ver
 
       # -------------------------------------------------------------
       - name: dump the 1st line of "show version" using bracket notation
@@ -77,4 +76,3 @@
       - name: dump 'models' list
         debug: var=models
       # -------------------------------------------------------------
-      
