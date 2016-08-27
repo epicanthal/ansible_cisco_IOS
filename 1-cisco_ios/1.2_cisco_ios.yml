@@ -4,20 +4,15 @@
 # https://docs.ansible.com/ansible/list_of_network_modules.html
 # Note: Try to stay consistent with indenting, here two-space indenting is used.
 
+# In this playbook, we'll introduce:
+#   - using regular expressions (regex) to glean some specific
 
-    # -------------------------------------------------------------
-    # Using a group for the playbook.  In /etc/ansible/hosts file, I have a
-    # group defined:
-    #
-    #   [my_switches]
-    #   192.168.1.9
-    #
-    # To keep things simple, only a single host is listed in the group, but
-    # you can add as many as you like.
+# If you are unfamiliar with regex, you should really take some time to review:
+# http://www.tutorialspoint.com/python/python_reg_expressions.htm, or
+# take a freely available Pythn course that introduces regex, like
+#  https://www.coursera.org/specializations/python
+
   - hosts: my_switches
-    # See http://docs.ansible.com/ansible/intro_inventory.html for
-    # formatting of the ansible 'hosts' file.
-    # -------------------------------------------------------------
     gather_facts: no
     connection: local
 
@@ -38,54 +33,48 @@
           host: "{{ inventory_hostname }}"
           commands:
             - show version
-            - show interface
-            - show inventory
           provider: "{{ connect_settings }}"
-        register: show_info
+        register: show_ver
+      # -------------------------------------------------------------
 
       # Uncomment to see entire contects of 'show_info' registered variable...
-      # Not pretty, but shows how all the output from the three show version/
-      # interface/inventory commands are combined into a single nested data
-      # structure.
       #- name: dump 'show_info'
       #  debug: var=show_info
 
+      # -------------------------------------------------------------
       - name: dump the 1st line of "show version" using bracket notation
-        debug: var=show_info["stdout_lines"][0][0]
+        debug: var=show_ver["stdout_lines"][0][0]
 
-      - name: dump the 1st line of "show interface" using dot notation
-        debug: var=show_info.stdout_lines.1.0
+      # Use the 'set_fact' module to save some data to a variable for later use.
+      # http://docs.ansible.com/ansible/set_fact_module.html
+      - name: set 'version' fact
+        #set_fact: version="{{ show_ver.stdout[0] | regex_search( '[Vv]ersion\s+([a-zA-Z0-9_\.\(\)]+)', '\1' ) }}"
+        set_fact: version="{{ show_ver.stdout[0] | regex_search( '[Vv]ersion\s+([\w\.\(\)]+)', '\1' ) }}"
+      # The 'show version' in some IOS versions has a 'comma' after the version #,
+      # e.g. 'Version 12.2(55)SE1, blah'.  The / [a-zA-Z0-9_\.\(\)]+ / ensures the
+      # trailing 'comma' or 'space' are not matched while all other alphanumeric and
+      # other characters 'period', 'parenthesis', 'underscore' that may be part of
+      # an IOS version are matched.
 
-      - name: dump the 2nd line of "show inventory" using dot notation
-        debug: var=show_info.stdout_lines.2.1
+      - name: dump 'version' fact
+        debug: msg="Host {{ inventory_hostname }} is running IOS {{ version[0] }}"
       # -------------------------------------------------------------
 
+      # -------------------------------------------------------------
+      # Use 'findall' since in the case of stackable 3750/3850 switches each is
+      # listed with serial#, etc. via "show version".
+      - name: set 'models' fact
+        set_fact: models="{{ show_ver.stdout[0] | regex_findall('Model [Nn]umber\s*\:\s*(WS\S+)\s*[Ss]ystem [Ss]erial [Nn]umber\s*\:\s*(\S+)') }}"
+      # This works out nice as a list of lists is returned, each internal list
+      # contains two items, ['Model', 'Serial#'], so for stack switchs like the
+      # 3750/3850 there is a two item list for each switch in the stack, and the
+      # the correct 'Serial#' is paired with the correct 'Model', e.g.
+      #    "models": [
+      #        ["WS-C3850-12X48U", "BNQ1949ND1N"],
+      #        ["WS-C3850-48U", "FZU1947M0P7"]
+      #     ]
 
-#      - name: set version fact
-#        set_fact: version="{{ show_ver.stdout[0] | regex_search('Version (\\S+),', '\\1') | first }}"
-
-#      - name: set models fact
-#        set_fact: models="{{ show_ver.stdout[0] | regex_findall('Model number\s*\:\s*WS\\S+') }}"
-
-#      - name: output
-#        set_fact: models="{{ show_ver.stdout[0] | regex_findall('Model [Nn]umber\s*\:\s*(WS\S+)') }}"
-
-  #    - name: set models fact
-  #      set_fact: models="{{ show_ver.stdout[0] | regex_findall('Model [Nn]umber\s*\:\s*(WS\S+)') }}"
-
-#      - name: set serial numbers fact
-#        set_fact: serials="{{ show_ver.stdout[0] | regex_findall('System Serial Number\s*\:\s*(\S+)') }}"
-
-#      - name: output
-#        set_fact: models="{{ show_ver.stdout[0] | regex_findall('Model [Nn]umber\s*\:\s*(WS\S+)|System Serial Number\s*\:\s*(\S+)') }}"
-
-#      - name: output
-#        set_fact: models="{{ show_ver.stdout[0] | regex_findall('Model [Nn]umber\s*\:\s*(WS\S+)\s*[Ss]ystem [Ss]erial [Nn]umber\s*\:\s*(\S+)') }}"
-
-#      - name: show some stuff
-#        debug: msg="Version = {{ version }}"
-#        debug: var=models
-  #      debug: var=serials
-        #debug: var=show_ver
-        #debug: var=show_ver["stdout_lines"]
-        #debug: var=show_ver["s:tdout_lines"][0][51]
+      - name: dump 'models' list
+        debug: var=models
+      # -------------------------------------------------------------
+      
