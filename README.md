@@ -8,3 +8,7 @@ My goal:
 - provide simple examples that aren't too lengthy to hopefully save you time getting started with Ansible w/networking gear.
 
 The idea is to create sections (directories) that are somehow related, e.g. section **_1-cisco_ios_** contains simple playbooks that do not reference any of the Ansible subdirectory structure or roles.
+
+##Section 1-cisco_ios
+These playbookds are basic starters that show how to initially get Ansible to talk to Cisco IOS devices (e.g. _connection: local_) and run basic _show_ commands.  Each playbook 1.0 -> 1.x builds on previous playbooks and comments are removed for parts documented in previous playsbooks, while any new material is commented where necessary.
+
