@@ -14,7 +14,7 @@
 #     for a given host.
 #
 #  (Credit to 'privateip' https://github.com/privateip/Ansible-Webinar-Mar2016
-#   for examples.)
+#   for regex examples.)
 
 # If you are unfamiliar with regex, you should really take some time to review:
 #   http://www.tutorialspoint.com/python/python_reg_expressions.htm
@@ -72,10 +72,10 @@
 
 
       # -------------------------------------------------------------
-      # Combine facts as a dictionary into list 'sys_info' which is initialized
-      # in the 'vars:' section as an empty list [].  Remember, this fact 'sys_info'
-      # like any other is specific to the current host.  It would be interesting
-      # to add all 'hosts' to the same list that is persistent.
+      # Combine facts as a dictionary into an existing list 'sys_info' which is
+      # initialized in the 'vars:' section as an empty list [].  Remember, this
+      # fact 'sys_info' like any other is specific to the current host.
+      # (It would be interestingto add all 'hosts' to the same list that is persistent.)
       - name: combine facts
         set_fact:
           sys_info: "{{ sys_info + [ {'host': inventory_hostname, 'version': version, 'model': models } ] }}"
