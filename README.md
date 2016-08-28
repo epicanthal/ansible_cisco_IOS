@@ -7,4 +7,4 @@ My goal:
 - enhance my learning by documenting the playbooks
 - provide simple examples that aren't too lengthy to hopefully save you time getting started with Ansible w/networking gear.
 
-The idea is to create sections (directories) that are somehow related, e.g. section 1 **_1-cisco_ios_** contains simple playbooks that do not reference any of the Ansible subdirectory structure or roles.
+The idea is to create sections (directories) that are somehow related, e.g. section **_1-cisco_ios_** contains simple playbooks that do not reference any of the Ansible subdirectory structure or roles.
