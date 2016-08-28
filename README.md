@@ -15,10 +15,15 @@ These playbooks are basic starters that show how to initially get Ansible to tal
 ##Notes/Suggestios:
 - Get [Ansible](http://docs.ansible.com/ansible/intro_installation.html#latest-releases-via-apt-ubuntu) up and running on a Linux/Unix virtual machine.  I'm using [Virtualbox](https://www.virtualbox.org/wiki/Downloads) and [Ubuntu Server 16.04](http://www.ubuntu.com/download/server) on a Macbook...works great
 ```
-$lsb_release -a
+$ lsb_release -a
 No LSB modules are available.
 Distributor ID:	Ubuntu
 Description:	Ubuntu 16.04.1 LTS
 Release:	16.04
 Codename:	xenial
+
+$ ansible --version
+ansible 2.1.1.0
+  config file = /etc/ansible/ansible.cfg
+  configured module search path = Default w/o overrides
 ```
