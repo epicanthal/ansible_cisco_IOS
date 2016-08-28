@@ -14,3 +14,9 @@ These playbooks are basic starters that show how to initially get Ansible to tal
 
 ##Notes/Suggestios:
 - Get Ansible up and running on a Linux/Unix virtual machine.  I'm using [Virtualbox](https://www.virtualbox.org/wiki/Downloads) and [Ubuntu Server 16.04](http://www.ubuntu.com/download/server) on a Macbook...works great
+```$lsb_release -a
+No LSB modules are available.
+Distributor ID:	Ubuntu
+Description:	Ubuntu 16.04.1 LTS
+Release:	16.04
+Codename:	xenial```
