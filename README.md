@@ -13,4 +13,4 @@ The idea is to create sections (directories) that are somehow related, e.g. sect
 These playbooks are basic starters that show how to initially get Ansible to talk to Cisco IOS devices (e.g. _connection: local_) and run basic _show_ commands.  Each playbook 1.0 -> 1.x builds on previous playbooks and comments are removed for parts documented in previous playsbooks, while any new material is commented where necessary.
 
 ##Notes/Suggestios:
-- Get Ansible up and running on a Linux/Unix virtual machine.  I'm using Virtualbox](https://www.virtualbox.org/wiki/Downloads) and [Ubuntu Server 16.04](http://www.ubuntu.com/download/server) on a Macbook...works great
+- Get Ansible up and running on a Linux/Unix virtual machine.  I'm using [Virtualbox](https://www.virtualbox.org/wiki/Downloads) and [Ubuntu Server 16.04](http://www.ubuntu.com/download/server) on a Macbook...works great
