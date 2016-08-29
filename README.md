@@ -14,7 +14,8 @@ These playbooks are basic starters that show how to initially get Ansible to tal
 #### Notes/Suggestions:
 - Although the power of Ansible is to operate against multiple devices via a single playbook, start by running these playbooks against a single Cisco IOS device.  Then add more and re-run the playbooks.
 - Make sure you can SSH to Cisco IOS device from the Ansible control machine
-- ```
+- 
+```
 $ ssh cisco@192.168.1.9
 Password: cisco
 Switch>enable
