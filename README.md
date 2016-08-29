@@ -13,7 +13,7 @@ The idea is to create sections (directories) that are somehow related, e.g. sect
 These playbooks are basic starters that show how to initially get Ansible to talk to Cisco IOS devices (e.g. _connection: local_) and run basic _show_ commands.  Each playbook 1.0 -> 1.x builds on previous playbooks and comments are removed for parts documented in previous playsbooks, while any new material is commented where necessary.  These purposely _do not_ use any [sub-directory](http://docs.ansible.com/ansible/playbooks_best_practices.html#directory-layout) structure so as to keep things as basic as possible.
 
 ##Notes/Suggestions:
-- Get [Ansible](http://docs.ansible.com/ansible/intro_installation.html#latest-releases-via-apt-ubuntu) up and running on a Linux/Unix virtual machine.  I'm using [Virtualbox](https://www.virtualbox.org/wiki/Downloads) and [Ubuntu Server 16.04](http://www.ubuntu.com/download/server) on a Macbook...works great
+- Get [Ansible](http://docs.ansible.com/ansible/intro_installation.html#latest-releases-via-apt-ubuntu) up and running on a Linux/Unix virtual machine (VM).  I'm using [Virtualbox](https://www.virtualbox.org/wiki/Downloads) and [Ubuntu Server 16.04](http://www.ubuntu.com/download/server) VM w/512MB RAM allocated on a Macbook...works great
 ```
 $ lsb_release -a
 No LSB modules are available.
