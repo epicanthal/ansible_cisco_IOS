@@ -13,7 +13,7 @@ The idea is to create sections (directories) that are somehow related, e.g. sect
 These playbooks are basic starters that show how to initially get Ansible to talk to Cisco IOS devices (e.g. _connection: local_) and run basic _show_ commands.  Each playbook 1.0 -> 1.x builds on previous playbooks and comments are removed for parts documented in previous playsbooks, while any new material is commented where necessary.  These purposely _do not_ use any [sub-directory](http://docs.ansible.com/ansible/playbooks_best_practices.html#directory-layout) structure so as to keep things as basic as possible.
 #### Notes/Suggestions:
 - Although the power of Ansible is to operate against multiple devices via a single playbook, start by running these playbooks against a single Cisco IOS device.  Then add more and re-run the playbooks.
-- Make sure you can SSH to the Cisco IOS device from the Ansible control machine.  (This is a sanity checck but doesn't ensure 'ansible-playbook' will connect successfully as I discovered and finally succeeded once I understood 'connection: local')
+- Make sure you can SSH to the Cisco IOS device from the Ansible control machine.  (This is a sanity check but doesn't ensure 'ansible-playbook' will connect successfully as I discovered and finally succeeded once I understood the importance of 'connection: local')
 ```
 $ ssh cisco@192.168.1.9
 Password: cisco
