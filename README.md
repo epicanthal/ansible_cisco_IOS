@@ -31,4 +31,7 @@ ansible 2.1.1.0
   configured module search path = Default w/o overrides
 ```
 - Some helpful skills to pocess:
-- - Linux
+  - [] Linux basic commands (cd, ls, cp, mv, ethtool, ssh, vi, etc.) for navigating you Ansible control mashine (server)
+  - [] Python
+  - [] Regex
+  - [] JSON
