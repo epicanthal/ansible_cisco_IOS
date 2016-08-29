@@ -30,3 +30,5 @@ ansible 2.1.1.0
   config file = /etc/ansible/ansible.cfg
   configured module search path = Default w/o overrides
 ```
+- Some helpful skills to pocess:
+- - Linux
