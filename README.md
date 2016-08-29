@@ -22,6 +22,9 @@ Description:	Ubuntu 16.04.1 LTS
 Release:	16.04
 Codename:	xenial
 
+$ grep MemTotal /proc/meminfo
+MemTotal:         500184 kB
+
 $ ansible --version
 ansible 2.1.1.0
   config file = /etc/ansible/ansible.cfg
