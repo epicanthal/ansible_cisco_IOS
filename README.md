@@ -14,7 +14,6 @@ These playbooks are basic starters that show how to initially get Ansible to tal
 #### Notes/Suggestions:
 - Although the power of Ansible is to operate against multiple devices via a single playbook, start by running these playbooks against a single Cisco IOS device.  Then add more and re-run the playbooks.
 - Make sure you can SSH to Cisco IOS device from the Ansible control machine
-- 
 ```
 $ ssh cisco@192.168.1.9
 Password: cisco
@@ -23,7 +22,7 @@ Password: cisco
 Switch#
 ```
 
-##Notes/Suggestions:
+##General Notes/Suggestions:
 - Get [Ansible](http://docs.ansible.com/ansible/intro_installation.html#latest-releases-via-apt-ubuntu) up and running on a Linux/Unix virtual machine (VM).  I'm using [Virtualbox](https://www.virtualbox.org/wiki/Downloads) and [Ubuntu Server 16.04](http://www.ubuntu.com/download/server) VM w/512MB RAM allocated on a Macbook...works great.
 ```
 $ lsb_release -a
