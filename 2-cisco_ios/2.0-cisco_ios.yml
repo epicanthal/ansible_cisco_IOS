@@ -1,0 +1,64 @@
+---
+# This playbook is based on Ansible 2.1, which is the initial version to
+# include modules for networking device, of which IOS is suppoted as a set of modules.
+# https://docs.ansible.com/ansible/list_of_network_modules.html
+# Note: Try to stay consistent with indenting, here two-space indenting is used.
+
+# In this playbook, we'll introduce:
+#   - ./group_vars and ./host_vars directories
+#
+# Refer to:
+#   - http://docs.ansible.com/ansible/intro_inventory.html#splitting-out-host-and-group-specific-data
+#   - http://docs.ansible.com/ansible/playbooks_best_practices.html#directory-layout
+#
+# You will notice comparing the two links above, you can either:
+#   1. Place /group_vars and /host_vars relative to the inventory file,
+#          e.g. /etc/ansible/hosts/[group_vars|host_vars]
+#   2. Place /group_vars and /host_vars relative to the top-level playbook directory,
+#          e.g. ./playbook_dir/[group_vars|host_vars]
+#
+# Notes:
+#   - This playbook is basically the same as ./1-cisco_ios/1.0-cisco_io.yml
+#     with minor changes as commented.
+#   - Assumes a group [my_switches] is defined in the inventory file,
+#     e.g. /etc/ansible/hosts
+#   - Assumes host 192.168.1.9 is a member of [my_switches] group
+
+    # -------------------------------------------------------------
+  - hosts: 192.168.1.9
+    gather_facts: no
+    connection: local
+
+    # Here the 'connect_settings' section has been moved to
+    #   ./group_vars/my_switches.yml
+    # to deomonstrate how variables are ingested for the group 'my_switches'
+    # by simply creating a file in ./group_vars named the same as the group.
+    # Notice how Ansible determines that even though I listed only the IP address
+    # 192.168.1.9 under the hosts variable, the group [my_switches] variables
+    # are included.
+
+    tasks:
+      - name: run 'show clock'
+        ios_command:
+          host: "{{ inventory_hostname }}"
+          commands:
+            - show clock
+          provider: "{{ connect_settings }}"
+        register: show_clock
+
+      - name: print the current host
+        debug: msg="The current host is {{ inventory_hostname }}"
+
+      - name: print date and time
+        debug: msg="The date and time of {{ inventory_hostname }} is {{ show_clock.stdout.0 }}"
+
+        # 'ntp_server_1' is included from ./group_vars/my_switches.yml
+      - name: print ntp_server_1 from ./group_vars/my_switches.yml
+        debug: var=ntp_server_1
+
+        # 'ntp_server_2' is included from ./host_vars/192.168.1.9.yml
+      - name: print ntp_server_2 from ./host_vars/192.168.1.9.yml
+        debug: var=ntp_server_2
+
+
+    # -------------------------------------------------------------
