@@ -40,8 +40,8 @@ ansible 2.1.1.0
   config file = /etc/ansible/ansible.cfg
   configured module search path = Default w/o overrides
 ```
-- Some helpful skills to pocess:
-  - [ ] Linux basic commands (cd, ls, cp, mv, ethtool, ssh, vi, etc.) for navigating your Ansible control machine
-  - [ ] Python
-  - [ ] Regex
-  - [ ] JSON
+- Some helpful skills to posess:
+  - [X] Linux basic commands (cd, ls, cp, mv, ethtool, ssh, vi, etc.) for navigating your Ansible control machine
+  - [X] Python
+  - [X] Regex
+  - [X] JSON
